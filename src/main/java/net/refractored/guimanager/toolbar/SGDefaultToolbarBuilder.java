@@ -29,10 +29,11 @@ public class SGDefaultToolbarBuilder implements SGToolbarBuilder {
         switch (type) {
             case PREV_BUTTON:
                 if (menu.getCurrentPage() > 0) return new SGButton(new ItemBuilder(Material.ARROW)
-                        .name(MiniMessage.miniMessage().deserialize("<green><bold>← Previous Page"))
-                        .lore(
-                                MiniMessage.miniMessage().deserialize("<green>Click to move back to"),
-                                MiniMessage.miniMessage().deserialize("<green>page " + menu.getCurrentPage() + "."))
+                        .miniName("<green><bold>← Previous Page")
+                        .miniLore(
+                                "<green>Click to move back to",
+                                "<green>page " + menu.getCurrentPage() + "."
+                        )
                         .build()
                 ).withListener(event -> {
                     event.setResult(Event.Result.DENY);
@@ -42,11 +43,12 @@ public class SGDefaultToolbarBuilder implements SGToolbarBuilder {
 
             case CURRENT_BUTTON:
                 return new SGButton(new ItemBuilder(Material.NAME_TAG)
-                        .name(MiniMessage.miniMessage().deserialize("<gray><bold>Page " + (menu.getCurrentPage() + 1) + " of " + menu.getMaxPage()))
-                        .lore(
-                                MiniMessage.miniMessage().deserialize("&7You are currently viewing"),
-                                MiniMessage.miniMessage().deserialize( "&7page " + (menu.getCurrentPage() + 1) + ".")
-                        ).build()
+                        .miniName(("<gray><bold>Page " + (menu.getCurrentPage() + 1) + " of " + menu.getMaxPage()))
+                        .miniLore(
+                                "<gray>You are currently viewing",
+                                "<gray>page " + (menu.getCurrentPage() + 1) + "."
+                        )
+                        .build()
                 ).withListener(event -> event.setResult(Event.Result.DENY));
 
             case NEXT_BUTTON:
