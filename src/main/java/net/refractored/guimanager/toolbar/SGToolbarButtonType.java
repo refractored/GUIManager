@@ -1,4 +1,4 @@
-package com.samjakob.spigui.toolbar;
+package net.refractored.guimanager.toolbar;
 
 import java.util.AbstractMap;
 import java.util.Map;

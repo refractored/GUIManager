@@ -1,4 +1,4 @@
-package com.samjakob.spigui.item;
+package net.refractored.guimanager.item;
 
 /**
  * Items such as glass panes can have variable color. This color is

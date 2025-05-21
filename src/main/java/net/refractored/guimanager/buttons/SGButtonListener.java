@@ -1,4 +1,4 @@
-package com.samjakob.spigui.buttons;
+package net.refractored.guimanager.buttons;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 

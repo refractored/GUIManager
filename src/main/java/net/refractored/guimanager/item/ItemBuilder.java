@@ -1,4 +1,4 @@
-package com.samjakob.spigui.item;
+package net.refractored.guimanager.item;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -1,9 +1,9 @@
 package com.samjakob.spiguitest;
 
-import com.samjakob.spigui.menu.SGMenu;
-import com.samjakob.spigui.SpiGUI;
-import com.samjakob.spigui.buttons.SGButton;
-import com.samjakob.spigui.item.ItemBuilder;
+import net.refractored.guimanager.menu.SGMenu;
+import net.refractored.guimanager.SpiGUI;
+import net.refractored.guimanager.buttons.SGButton;
+import net.refractored.guimanager.item.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -116,7 +116,7 @@ public class SpiGUITest extends JavaPlugin {
                 });
 
                 myAwesomeMenu.setButton(0, 10, new SGButton(
-                        new ItemBuilder(Material.SKULL_ITEM)
+                        new ItemBuilder(Material.LEGACY_SKULL_ITEM)
                                 .skullOwner(player.getName())
                                 .name("&e&l" + player.getDisplayName())
                                 .lore(
@@ -203,7 +203,7 @@ public class SpiGUITest extends JavaPlugin {
 
                                 private SGButton nextColorButton() {
                                     return new SGButton(
-                                            new ItemBuilder(Material.STAINED_GLASS_PANE)
+                                            new ItemBuilder(Material.LEGACY_STAINED_GLASS_PANE)
                                                     .name("&" + Integer.toHexString(currentColor) + "&lSpiGUI!!!")
                                                     .data(currentColor)
                                                     .build()
@@ -292,7 +292,7 @@ public class SpiGUITest extends JavaPlugin {
                                         .flag(ItemFlag.HIDE_ATTRIBUTES)
                                         .flag(ItemFlag.HIDE_DESTROYS)
                                         .flag(ItemFlag.HIDE_PLACED_ON)
-                                        .flag(ItemFlag.HIDE_POTION_EFFECTS)
+//                                        .flag(ItemFlag.HIDE_)
                                         .name(match.getKit().getName())
                                         .lore(
                                                 String.format("&a%s &evs. &a%s", match.getPlayerNames()[0], match.getPlayerNames()[1]),

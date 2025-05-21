@@ -1,7 +1,7 @@
-package com.samjakob.spigui.toolbar;
+package net.refractored.guimanager.toolbar;
 
-import com.samjakob.spigui.menu.SGMenu;
-import com.samjakob.spigui.buttons.SGButton;
+import net.refractored.guimanager.menu.SGMenu;
+import net.refractored.guimanager.buttons.SGButton;
 
 /**
  * An interface for a toolbar button builder.

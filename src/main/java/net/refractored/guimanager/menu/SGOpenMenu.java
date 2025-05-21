@@ -1,4 +1,4 @@
-package com.samjakob.spigui.menu;
+package net.refractored.guimanager.menu;
 
 import org.bukkit.entity.Player;
 

@@ -1,9 +1,9 @@
-package com.samjakob.spigui.toolbar;
+package net.refractored.guimanager.toolbar;
 
-import com.samjakob.spigui.SpiGUI;
-import com.samjakob.spigui.buttons.SGButton;
-import com.samjakob.spigui.item.ItemBuilder;
-import com.samjakob.spigui.menu.SGMenu;
+import net.refractored.guimanager.SpiGUI;
+import net.refractored.guimanager.buttons.SGButton;
+import net.refractored.guimanager.item.ItemBuilder;
+import net.refractored.guimanager.menu.SGMenu;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 

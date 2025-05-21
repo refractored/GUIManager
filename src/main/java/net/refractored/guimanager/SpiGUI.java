@@ -1,10 +1,10 @@
-package com.samjakob.spigui;
+package net.refractored.guimanager;
 
-import com.samjakob.spigui.menu.SGMenu;
-import com.samjakob.spigui.menu.SGMenuListener;
-import com.samjakob.spigui.menu.SGOpenMenu;
-import com.samjakob.spigui.toolbar.SGDefaultToolbarBuilder;
-import com.samjakob.spigui.toolbar.SGToolbarBuilder;
+import net.refractored.guimanager.menu.SGMenu;
+import net.refractored.guimanager.menu.SGMenuListener;
+import net.refractored.guimanager.menu.SGOpenMenu;
+import net.refractored.guimanager.toolbar.SGDefaultToolbarBuilder;
+import net.refractored.guimanager.toolbar.SGToolbarBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
