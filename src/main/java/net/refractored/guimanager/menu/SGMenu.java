@@ -1,5 +1,9 @@
 package net.refractored.guimanager.menu;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.refractored.guimanager.SpiGUI;
 import net.refractored.guimanager.buttons.SGButton;
 import net.refractored.guimanager.toolbar.SGToolbarBuilder;
@@ -12,9 +16,12 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 /**
  * SGMenu is used to implement the library's GUIs.
@@ -25,7 +32,7 @@ import java.util.function.Consumer;
  * <br><br>
  * You do not instantiate this class when you need it - as you would
  * have done with the older version of the library - rather you make a
- * call to {@link SpiGUI#create(String, int)} or {@link SpiGUI#create(String, int, String)}
+ * call to {@link SpiGUI#create(Component, int)} or {@link SpiGUI#create(Component, int, String)}
  * from your plugin's {@link SpiGUI} instance.
  * <br><br>
  * This creates an inventory that is already associated with your plugin.
@@ -40,7 +47,7 @@ public class SGMenu implements InventoryHolder {
     private final SpiGUI spiGUI;
 
     /** The title of the inventory. */
-    private String name;
+    private Component name;
     /** A tag that may be used to identify the type of inventory. */
     private String tag;
     /** The number of rows to display per page. */
@@ -119,7 +126,7 @@ public class SGMenu implements InventoryHolder {
     };
 
     /**
-     * <b>Intended for internal use only. Use {@link SpiGUI#create(String, int)} or {@link SpiGUI#create(String, int, String)}!</b><br>
+     * <b>Intended for internal use only. Use {@link SpiGUI#create(Component, int)} or {@link SpiGUI#create(Component, int, String)} </b><br>
      * Used by the library internally to construct an SGMenu.
      * <br>
      * The name parameter is color code translated.
@@ -131,10 +138,11 @@ public class SGMenu implements InventoryHolder {
      * @param tag                        The tag associated with this menu.
      * @param clickTypes                 The set of permitted click types.
      */
-    public SGMenu(JavaPlugin owner, SpiGUI spiGUI, String name, int rowsPerPage, String tag, ClickType... clickTypes) {
+    public SGMenu(JavaPlugin owner, SpiGUI spiGUI, Component name, int rowsPerPage, String tag, ClickType... clickTypes) {
         this.owner = owner;
         this.spiGUI = spiGUI;
-        this.name = ChatColor.translateAlternateColorCodes('&', name);
+//        this.name = ChatColor.translateAlternateColorCodes('&', name);
+        this.name = name;
         this.rowsPerPage = rowsPerPage;
         this.tag = tag;
 
@@ -294,34 +302,21 @@ public class SGMenu implements InventoryHolder {
      * This sets the inventory's display name.
      * <br><br>
      * The name parameter is color code translated before the value is set.
-     * If you want to avoid this behavior, you should use {@link #setRawName(String)}
      * which sets the inventory's name directly.
      *
      * @param name The display name to set. (and to be color code translated)
      */
-    public void setName(String name) {
-        this.name = ChatColor.translateAlternateColorCodes('&', name);
-    }
-
-    /**
-     * This sets the inventory's display name <b>without</b> first translating
-     * color codes.
-     *
-     * @param name The display name to set.
-     */
-    public void setRawName(String name) {
+    public void setName(Component name) {
         this.name = name;
     }
-
+    
     /**
      * This returns the inventory's display name.
      * <br><br>
-     * Note that if you used {@link #setName(String)}, this will have been
-     * color code translated already.
      *
      * @return The inventory's display name.
      */
-    public String getName() {
+    public Component getName() {
         return name;
     }
 
@@ -783,16 +778,28 @@ public class SGMenu implements InventoryHolder {
             return;
         }
 
-        // If the name has changed, we'll need to open a new inventory.
-        String newName = name.replace("{currentPage}", String.valueOf(currentPage + 1))
-                             .replace("{maxPage}", String.valueOf(getMaxPage()));
-        if (!viewer.getOpenInventory().getTitle().equals(newName)) {
+        if (!viewer.getOpenInventory().title().equals(compileName())) {
             viewer.openInventory(getInventory());
             return;
         }
 
         // Otherwise, we can refresh the contents without re-opening the inventory.
         viewer.getOpenInventory().getTopInventory().setContents(getInventory().getContents());
+    }
+
+    private Component compileName(){
+        Component newComponent = name.replaceText(
+                TextReplacementConfig.builder()
+                        .matchLiteral("{currentPage}")
+                        .replacement(String.valueOf(currentPage + 1))
+                        .build());
+
+        newComponent = newComponent.replaceText(
+                TextReplacementConfig.builder()
+                        .matchLiteral("{currentPage}")
+                        .replacement(String.valueOf(getMaxPage()))
+                        .build());
+        return newComponent;
     }
 
     /**
@@ -802,7 +809,7 @@ public class SGMenu implements InventoryHolder {
      * @return The created inventory used to display the GUI.
      */
     @Override
-    public Inventory getInventory() {
+    public @NotNull Inventory getInventory() {
         boolean isAutomaticPaginationEnabled = spiGUI.isAutomaticPaginationEnabled();
         if (isAutomaticPaginationEnabled() != null) {
             isAutomaticPaginationEnabled = isAutomaticPaginationEnabled();
@@ -817,8 +824,7 @@ public class SGMenu implements InventoryHolder {
                 // Pagination not required or disabled.
                 : getPageSize()
         ),
-            name.replace("{currentPage}", String.valueOf(currentPage + 1))
-                .replace("{maxPage}", String.valueOf(getMaxPage()))
+            compileName()
         );
 
         // Add the main inventory items.

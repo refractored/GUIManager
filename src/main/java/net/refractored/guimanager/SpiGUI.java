@@ -1,5 +1,6 @@
 package net.refractored.guimanager;
 
+import net.kyori.adventure.text.Component;
 import net.refractored.guimanager.menu.SGMenu;
 import net.refractored.guimanager.menu.SGMenuListener;
 import net.refractored.guimanager.menu.SGOpenMenu;
@@ -126,7 +127,7 @@ public class SpiGUI {
      * @param rows The number of rows the inventory should have per page.
      * @return The created inventory.
      */
-    public SGMenu create(String name, int rows) {
+    public SGMenu create(Component name, int rows) {
         return create(name, rows, null);
     }
 
@@ -169,7 +170,7 @@ public class SpiGUI {
      * @param tag The inventory's tag.
      * @return The created inventory.
      */
-    public SGMenu create(String name, int rows, String tag) {
+    public SGMenu create(Component name, int rows, String tag) {
         return new SGMenu(plugin, this, name, rows, tag);
     }
 

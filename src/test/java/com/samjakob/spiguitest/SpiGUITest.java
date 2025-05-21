@@ -1,5 +1,6 @@
 package com.samjakob.spiguitest;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.refractored.guimanager.menu.SGMenu;
 import net.refractored.guimanager.SpiGUI;
 import net.refractored.guimanager.buttons.SGButton;
@@ -72,7 +73,10 @@ public class SpiGUITest extends JavaPlugin {
 
             if (args.length == 0) {
                 // Open a test SpiGUI menu.
-                SGMenu myAwesomeMenu = SpiGUITest.getSpiGUI().create("&c&lSpiGUI &c(Page {currentPage}/{maxPage})", 3);
+                SGMenu myAwesomeMenu = SpiGUITest.getSpiGUI().create(
+                        MiniMessage.miniMessage().deserialize("<red><bold>GUIManager</bold> (Page {currentPage}/{maxPage})"),
+                        3
+                );
 
                 myAwesomeMenu.setToolbarBuilder((slot, page, defaultType, menu) -> {
                     if (slot == 8) {
@@ -246,7 +250,7 @@ public class SpiGUITest extends JavaPlugin {
 
                     // Create a menu with one row, so that pagination values are easy to calculate (each page is a
                     // multiple of 9, then the remainder can just be added to ensure the number of items match up).
-                    SGMenu inventorySizeTest = SpiGUITest.getSpiGUI().create("Test Menu", 1);
+                    SGMenu inventorySizeTest = SpiGUITest.getSpiGUI().create(MiniMessage.miniMessage().deserialize("Test Menu"), 1);
 
                     IntStream.range(0, size).forEach(i -> inventorySizeTest.addButton(new SGButton(
                             new ItemBuilder(Material.GOLD_ORE).name(String.format("&6Item %d", i + 1))
@@ -259,7 +263,7 @@ public class SpiGUITest extends JavaPlugin {
 
                 case "refreshTest": {
 
-                    SGMenu refreshTestMenu = SpiGUITest.getSpiGUI().create("&bMatches", 1);
+                    SGMenu refreshTestMenu = SpiGUITest.getSpiGUI().create(MiniMessage.miniMessage().deserialize("&bMatches"), 1);
 
                     // Generate 3 to 8 random matches.
                     List<Match> matches = IntStream.range(0, ThreadLocalRandom.current().nextInt(5) + 3)
