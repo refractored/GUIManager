@@ -1,6 +1,7 @@
 package net.refractored.guimanager.item;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -79,17 +80,26 @@ public class ItemBuilder {
 
     /**
      * Sets the display name of the item.
-     * Color codes using the ampersand (&amp;) are translated, if you want to avoid this,
-     * you should wrap your name argument with a {@link ChatColor#stripColor(String)} call.
      *
      * @param name The desired display name of the item stack.
      * @return The {@link ItemBuilder} instance.
      */
-    public ItemBuilder name(String name) {
+    public ItemBuilder name(Component name) {
         ItemMeta stackMeta = stack.getItemMeta();
-        stackMeta.setDisplayName(ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', name));
+        stackMeta.displayName(name);
         stack.setItemMeta(stackMeta);
         return this;
+    }
+
+    /**
+     * Sets the display name of the item.
+     * This method uses minimessage to parse the name.
+     *
+     * @param name The desired display name of the item stack.
+     * @return The {@link ItemBuilder} instance.
+     */
+    public ItemBuilder miniName(String name) {
+        return name(MiniMessage.miniMessage().deserialize((name)));
     }
 
     /**
@@ -97,17 +107,17 @@ public class ItemBuilder {
      * <br>
      * You should note that this method fetches the name directly from the stack's {@link ItemMeta},
      * so you should take extra care when comparing names with color codes - particularly if you used the
-     * {@link #name(String)} method as they will be in their translated sectional symbol (§) form,
+     * {@link #name(Component)} method as they will be in their translated sectional symbol (§) form,
      * rather than their 'coded' form (&amp;).
      * <br>
-     * For example, if you used {@link #name(String)} to set the name to '&amp;cMy Item', the output of this
+     * For example, if you used {@link #name(Component)} to set the name to '&amp;cMy Item', the output of this
      * method would be '§cMy Item'
      *
      * @return The item's display name as returned from its {@link ItemMeta}.
      */
-    public String getName() {
+    public Component getName() {
         if (!stack.hasItemMeta() || !stack.getItemMeta().hasDisplayName()) return null;
-        return stack.getItemMeta().getDisplayName();
+        return stack.getItemMeta().displayName();
     }
 
     /**
@@ -137,14 +147,23 @@ public class ItemBuilder {
      * @param lore The desired lore of the item, with each line as a separate string.
      * @return The {@link ItemBuilder} instance.
      */
-    public ItemBuilder lore(String... lore) {
+    public ItemBuilder lore(Component... lore) {
         return lore(Arrays.asList(lore));
     }
 
     /**
+     * Sets the lore of the item. This method is a var-args alias for the
+     * {@link #lore(List)} method. This method uses minimessage to parse the lore.
+     *
+     * @param lore The desired lore of the item, with each line as a separate string.
+     * @return The {@link ItemBuilder} instance.
+     */
+    public ItemBuilder miniLore(String... lore) {
+        return miniLore(Arrays.asList(lore));
+    }
+
+    /**
      * Sets the lore of the item.
-     * As with {@link #name(String)}, color codes will be replaced. Each string represents
-     * a line of the lore.
      * <br>
      * Lines will not be automatically wrapped or truncated, so it is recommended you take
      * some consideration into how the item will be rendered with the lore.
@@ -152,11 +171,25 @@ public class ItemBuilder {
      * @param lore The desired lore of the item, with each line as a separate string.
      * @return The {@link ItemBuilder} instance.
      */
-    public ItemBuilder lore(List<String> lore) {
-        lore.replaceAll(textToTranslate -> ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', textToTranslate));
+    public ItemBuilder miniLore(List<String> lore) {
+        List<Component> loreComponents = lore.stream()
+                .map(s -> MiniMessage.miniMessage().deserialize(s))
+                .toList();
+        return lore(loreComponents);
+    }
 
+    /**
+     * Sets the lore of the item.
+     * <br>
+     * Lines will not be automatically wrapped or truncated, so it is recommended you take
+     * some consideration into how the item will be rendered with the lore.
+     *
+     * @param lore The desired lore of the item, with each line as a separate string.
+     * @return The {@link ItemBuilder} instance.
+     */
+    public ItemBuilder lore(List<Component> lore) {
         ItemMeta stackMeta = stack.getItemMeta();
-        stackMeta.setLore(lore);
+        stackMeta.lore(lore);
         stack.setItemMeta(stackMeta);
         return this;
     }
@@ -165,7 +198,7 @@ public class ItemBuilder {
      * Gets the lore of the item as a list of strings. Each string represents a line of the
      * item's lore in-game.
      * <br>
-     * As with {@link #name(String)}, it should be noted that color-coded lore lines will
+     * As with {@link #name(Component)}, it should be noted that color-coded lore lines will
      * be returned with the colors codes already translated.
      *
      * @return The lore of the item.

@@ -82,12 +82,12 @@ public class SpiGUITest extends JavaPlugin {
                     if (slot == 8) {
                         return new SGButton(
                             new ItemBuilder(Material.EMERALD)
-                                .name(String.format("&a&l%d gems", gems.getOrDefault(player, 5)))
-                                .lore(
-                                    "&aUse gems to buy cosmetics",
-                                    "&aand other items in the store!",
+                                .miniName(String.format("&a&l%d gems", gems.getOrDefault(player, 5)))
+                                .miniLore(
+                                    "<green>Use gems to buy cosmetics",
+                                    "<green>and other items in the store!",
                                     "",
-                                    "&7&o(Click to add more)"
+                                    "<green>(Click to add more)"
                                 )
                                 .build()
                         ).withListener((event) -> {
@@ -122,23 +122,23 @@ public class SpiGUITest extends JavaPlugin {
                 myAwesomeMenu.setButton(0, 10, new SGButton(
                         new ItemBuilder(Material.LEGACY_SKULL_ITEM)
                                 .skullOwner(player.getName())
-                                .name("&e&l" + player.getDisplayName())
-                                .lore(
-                                        "&eGame Mode: &6" + player.getGameMode().toString(),
-                                        "&eLocation: &6" + String.format(
+                                .miniName("&e&l" + player.getDisplayName())
+                                .miniLore(
+                                        "<grey>Game Mode: &6" + player.getGameMode().toString(),
+                                        "<red>Location: &6" + String.format(
                                                 "%.0f, %.0f, %.0f",
                                                 player.getLocation().getX(),
                                                 player.getLocation().getY(),
                                                 player.getLocation().getZ()
                                         ),
-                                        "&eExperience: &6" + player.getTotalExperience()
+                                        "<red>Experience: &6" + player.getTotalExperience()
                                 )
                                 .build()
                 ));
 
                 myAwesomeMenu.setButton(1, 0, new SGButton(
                         new ItemBuilder(Material.GOLD_ORE)
-                                .name("&6Get rich quick!")
+                                .miniName("&6Get rich quick!")
                                 .build()
                 ).withListener(event -> {
                     Inventory playerInventory = event.getWhoClicked().getInventory();
@@ -164,7 +164,7 @@ public class SpiGUITest extends JavaPlugin {
                             : Material.GOLD_ORE;
 
                     myAwesomeMenu.getButton(1, 0).setIcon(
-                            new ItemBuilder(newMaterial).name(
+                            new ItemBuilder(newMaterial).miniName(
                                     newMaterial == Material.GOLD_ORE ? "&6Get rich quick!" : "&7Get poor quick!"
                             ).amount(1).build()
                     );
@@ -208,7 +208,7 @@ public class SpiGUITest extends JavaPlugin {
                                 private SGButton nextColorButton() {
                                     return new SGButton(
                                             new ItemBuilder(Material.LEGACY_STAINED_GLASS_PANE)
-                                                    .name("&" + Integer.toHexString(currentColor) + "&lSpiGUI!!!")
+                                                    .miniName("&" + Integer.toHexString(currentColor) + "&lSpiGUI!!!")
                                                     .data(currentColor)
                                                     .build()
                                     );
@@ -253,7 +253,7 @@ public class SpiGUITest extends JavaPlugin {
                     SGMenu inventorySizeTest = SpiGUITest.getSpiGUI().create(MiniMessage.miniMessage().deserialize("Test Menu"), 1);
 
                     IntStream.range(0, size).forEach(i -> inventorySizeTest.addButton(new SGButton(
-                            new ItemBuilder(Material.GOLD_ORE).name(String.format("&6Item %d", i + 1))
+                            new ItemBuilder(Material.GOLD_ORE).miniName(String.format("&6Item %d", i + 1))
                                     .build()
                     )));
 
@@ -274,13 +274,13 @@ public class SpiGUITest extends JavaPlugin {
                         Match match = matches.get(i);
 
                         refreshTestMenu.setButton(i, new SGButton(new ItemBuilder(match.getKit().getIcon())
-                                .name(match.getKit().getName())
-                                .lore(
-                                    String.format("&a%s &evs. &a%s", match.getPlayerNames()[0], match.getPlayerNames()[1]),
-                                    String.format("&fTime: &b%s", match.getTime()),
+                                .miniName(match.getKit().getName())
+                                .miniLore(
+                                    String.format("<green>%s &evs. &a%s", match.getPlayerNames()[0], match.getPlayerNames()[1]),
+                                    String.format("<white>Time: &b%s", match.getTime()),
                                     "",
-                                    String.format("&fKit: &b%s", match.getKit().getName()),
-                                    String.format("&fArena: &b%s &7(%s)", match.getArena(), match.getKit().getName())
+                                    String.format("<white>Kit: &b%s", match.getKit().getName()),
+                                    String.format("<white>Arena: &b%s &7(%s)", match.getArena(), match.getKit().getName())
                                 )
                                 .build()));
                     }
@@ -297,8 +297,8 @@ public class SpiGUITest extends JavaPlugin {
                                         .flag(ItemFlag.HIDE_DESTROYS)
                                         .flag(ItemFlag.HIDE_PLACED_ON)
 //                                        .flag(ItemFlag.HIDE_)
-                                        .name(match.getKit().getName())
-                                        .lore(
+                                        .miniName(match.getKit().getName())
+                                        .miniLore(
                                                 String.format("&a%s &evs. &a%s", match.getPlayerNames()[0], match.getPlayerNames()[1]),
                                                 String.format("&fTime: &b%s", match.getTime()),
                                                 "",
@@ -367,10 +367,10 @@ public class SpiGUITest extends JavaPlugin {
         // Begin mock data.
         private static final String[] fakePlayerNames = {"MoreHaro", "Pixelle", "SpyPlenty", "Winlink", "Herobrine", "Notch", "Dinnerbone", "CinnamonTown", "TreeMushrooms"};
         private static final Kit[] fakeKits = {
-            new Kit("Classic Battle", new ItemBuilder(Material.STONE_SWORD).name("&7Classic Battle").build()),
-            new Kit("OP Battle", new ItemBuilder(Material.DIAMOND_SWORD).name("&bOP Battle").build()),
-            new Kit("Classic UHC", new ItemBuilder(Material.GOLDEN_APPLE).name("&eClassic UHC").build()),
-            new Kit("OP UHC", new ItemBuilder(Material.GOLDEN_APPLE).data((short) 1).name("&6OP UHC").build()),
+            new Kit("Classic Battle", new ItemBuilder(Material.STONE_SWORD).miniName("&7Classic Battle").build()),
+            new Kit("OP Battle", new ItemBuilder(Material.DIAMOND_SWORD).miniName("&bOP Battle").build()),
+            new Kit("Classic UHC", new ItemBuilder(Material.GOLDEN_APPLE).miniName("&eClassic UHC").build()),
+            new Kit("OP UHC", new ItemBuilder(Material.GOLDEN_APPLE).data((short) 1).miniName("&6OP UHC").build()),
         };
         private static final String[] fakeArenas = {"King's Road", "Ilios", "Fort Starr", "The Hopper"};
 

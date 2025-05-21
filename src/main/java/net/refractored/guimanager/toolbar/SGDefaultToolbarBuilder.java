@@ -1,5 +1,6 @@
 package net.refractored.guimanager.toolbar;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.refractored.guimanager.SpiGUI;
 import net.refractored.guimanager.buttons.SGButton;
 import net.refractored.guimanager.item.ItemBuilder;
@@ -28,10 +29,10 @@ public class SGDefaultToolbarBuilder implements SGToolbarBuilder {
         switch (type) {
             case PREV_BUTTON:
                 if (menu.getCurrentPage() > 0) return new SGButton(new ItemBuilder(Material.ARROW)
-                        .name("&a&l← Previous Page")
+                        .name(MiniMessage.miniMessage().deserialize("<green><bold>← Previous Page"))
                         .lore(
-                                "&aClick to move back to",
-                                "&apage " + menu.getCurrentPage() + ".")
+                                MiniMessage.miniMessage().deserialize("<green>Click to move back to"),
+                                MiniMessage.miniMessage().deserialize("<green>page " + menu.getCurrentPage() + "."))
                         .build()
                 ).withListener(event -> {
                     event.setResult(Event.Result.DENY);
@@ -41,17 +42,17 @@ public class SGDefaultToolbarBuilder implements SGToolbarBuilder {
 
             case CURRENT_BUTTON:
                 return new SGButton(new ItemBuilder(Material.NAME_TAG)
-                        .name("&7&lPage " + (menu.getCurrentPage() + 1) + " of " + menu.getMaxPage())
+                        .name(MiniMessage.miniMessage().deserialize("<gray><bold>Page " + (menu.getCurrentPage() + 1) + " of " + menu.getMaxPage()))
                         .lore(
-                                "&7You are currently viewing",
-                                "&7page " + (menu.getCurrentPage() + 1) + "."
+                                MiniMessage.miniMessage().deserialize("&7You are currently viewing"),
+                                MiniMessage.miniMessage().deserialize( "&7page " + (menu.getCurrentPage() + 1) + ".")
                         ).build()
                 ).withListener(event -> event.setResult(Event.Result.DENY));
 
             case NEXT_BUTTON:
                 if (menu.getCurrentPage() < menu.getMaxPage() - 1) return new SGButton(new ItemBuilder(Material.ARROW)
-                        .name("&a&lNext Page →")
-                        .lore(
+                        .miniName("&a&lNext Page →")
+                        .miniLore(
                                 "&aClick to move forward to",
                                 "&apage " + (menu.getCurrentPage() + 2) + "."
                         ).build()
