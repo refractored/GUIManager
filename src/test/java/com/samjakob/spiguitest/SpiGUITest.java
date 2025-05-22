@@ -121,7 +121,7 @@ public class SpiGUITest extends JavaPlugin {
 
                 myAwesomeMenu.setButton(0, 10, new SGButton(
                         new ItemBuilder(Material.LEGACY_SKULL_ITEM)
-                                .skullOwner(player.getName())
+                                .skullOwner(player)
                                 .miniName("&e&l" + player.getDisplayName())
                                 .miniLore(
                                         "<grey>Game Mode: &6" + player.getGameMode().toString(),
